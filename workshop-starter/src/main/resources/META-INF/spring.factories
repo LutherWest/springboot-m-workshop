@@ -1,2 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.epam.springbootworkshop.quartz._2.QuartzSchedulerAutoConfiguration
+
+com.epam.springbootworkshop.quartz._3.GreetingService=\
+  com.epam.springbootworkshop.quartz._3.GreetingServiceImpl

@@ -8,6 +8,7 @@ import org.quartz.spi.JobFactory;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.quartz.QuartzAutoConfiguration;
@@ -24,6 +25,7 @@ import org.springframework.scheduling.quartz.SpringBeanJobFactory;
 @ConditionalOnProperty(name = "scheduling.enabled", havingValue = "true", matchIfMissing = true)
 public class QuartzSchedulerAutoConfiguration {
 
+    //TODO task for EnvPP exclude autoconfiguration
     @Bean
     @ConditionalOnMissingBean
     public SchedulerFactoryBean scheduler(JobFactory jobFactory,
