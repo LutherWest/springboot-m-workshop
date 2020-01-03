@@ -1,0 +1,4 @@
+scheduling:
+  scheduler-name: my-scheduler-name
+  properties:
+    org.quartz.threadPool.threadCount: 10

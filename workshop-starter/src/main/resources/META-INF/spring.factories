@@ -1,5 +1,11 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.epam.springbootworkshop.quartz._2.QuartzSchedulerAutoConfiguration
 
+org.springframework.boot.env.EnvironmentPostProcessor=\
+  com.epam.springbootworkshop.quartz._2.QuartAutoConfigurationEnvironmentPostProcessor
+
+org.springframework.boot.diagnostics.FailureAnalyzer=\
+  com.epam.springbootworkshop.quartz._2.NoTriggerConfiguredFailureAnalyzer
+
 com.epam.springbootworkshop.quartz._3.GreetingService=\
   com.epam.springbootworkshop.quartz._3.GreetingServiceImpl
