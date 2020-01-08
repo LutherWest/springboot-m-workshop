@@ -9,10 +9,15 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionEvaluationReport;
 import org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportMessage;
+import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.env.Environment;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.util.ReflectionUtils;
+
+import com.epam.springbootworkshop.quartz._2.QuartzProperties;
+import com.epam.springbootworkshop.quartz._2.RepeatableQuartzJob;
 
 @SpringBootApplication
 public class QuartzAutoConfigApplication {
@@ -31,7 +36,7 @@ public class QuartzAutoConfigApplication {
         };
     }
 
-    @Bean
+//    @Bean
     public CommandLineRunner conditionEvaluationReport(ConfigurableListableBeanFactory beanFactory) {
         return args -> {
             final ConditionEvaluationReport report = ConditionEvaluationReport.get(beanFactory);
@@ -39,7 +44,19 @@ public class QuartzAutoConfigApplication {
         };
     }
 
-//    @RepeatableQuartzJob(repeatInterval = 1000)
+    @Bean
+    public CommandLineRunner commandLineRunner1(Environment environment) {
+        return args -> {
+            Binder.get(environment)
+                    .bind("scheduling", QuartzProperties.class)
+                    .ifBound(props -> {
+                        // my-scheduler-name-int
+                        System.out.println(props.getSchedulerName());
+                    });
+        };
+    }
+
+    @RepeatableQuartzJob(repeatInterval = 3000)
     public static class JobClass extends QuartzJobBean {
 
         @Override

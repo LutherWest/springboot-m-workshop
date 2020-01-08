@@ -1,4 +1,7 @@
+spring:
+  application:
+    name: springboot-workshop
 scheduling:
-  scheduler-name: my-scheduler-name
+  scheduler-name: ${spring.application.name}
   properties:
     org.quartz.threadPool.threadCount: 10
