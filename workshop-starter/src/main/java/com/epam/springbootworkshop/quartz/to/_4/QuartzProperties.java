@@ -1,4 +1,4 @@
-package com.epam.springbootworkshop.quartz._2;
+package com.epam.springbootworkshop.quartz.to._4;
 
 import lombok.Getter;
 import lombok.Setter;

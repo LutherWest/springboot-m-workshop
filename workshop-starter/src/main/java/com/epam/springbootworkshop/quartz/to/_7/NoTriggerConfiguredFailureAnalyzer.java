@@ -1,14 +1,13 @@
-package com.epam.springbootworkshop.quartz._2;
+package com.epam.springbootworkshop.quartz.to._7;
 
 import org.quartz.Trigger;
 import org.springframework.boot.diagnostics.AbstractFailureAnalyzer;
 import org.springframework.boot.diagnostics.FailureAnalysis;
-import org.springframework.context.annotation.ImportSelector;
-import org.springframework.core.type.AnnotationMetadata;
-import org.springframework.lang.Nullable;
 import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.scheduling.quartz.SimpleTriggerFactoryBean;
+
+import com.epam.springbootworkshop.quartz.from.RepeatableQuartzJob;
 
 public class NoTriggerConfiguredFailureAnalyzer extends AbstractFailureAnalyzer<NoTriggerConfiguredException> {
     private static final String DESCRIPTION = "There is no configured " + Trigger.class.getName() + " in application.";
@@ -24,18 +23,3 @@ public class NoTriggerConfiguredFailureAnalyzer extends AbstractFailureAnalyzer<
         return new FailureAnalysis(DESCRIPTION, ACTION, cause);
     }
 }
-
-//public interface DeferredImportSelector extends ImportSelector {
-//
-//    @Override
-//    String[] selectImports(AnnotationMetadata importingClassMetadata);
-//
-//    @Nullable
-//    default Class<? extends Group> getImportGroup() {
-//        return null;
-//    }
-//
-//    interface Group {
-//        //...
-//    }
-//}

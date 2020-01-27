@@ -1,15 +1,15 @@
-package com.epam.springbootworkshop.quartz._1;
-
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Optional;
+package com.epam.springbootworkshop.quartz.to._1;
 
 import org.quartz.Trigger;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionReaderUtils;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.boot.autoconfigure.AutoConfigurationPackages;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
@@ -22,12 +22,17 @@ import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.scheduling.quartz.JobDetailFactoryBean;
 import org.springframework.scheduling.quartz.SimpleTriggerFactoryBean;
 import org.springframework.util.Assert;
-import org.springframework.util.ClassUtils;
 
-public class QuartzJobImportBeanDefinitionRegistrar
-        implements ImportBeanDefinitionRegistrar, ResourceLoaderAware, EnvironmentAware {
+import java.util.Collection;
+import java.util.Optional;
+
+import com.epam.springbootworkshop.quartz.from.RepeatableQuartzJob;
+
+public class AutoConfigureQuartzJobImportBeanDefinitionRegistrar
+        implements ImportBeanDefinitionRegistrar, ResourceLoaderAware, EnvironmentAware, BeanFactoryAware {
     private Environment environment;
     private ResourceLoader resourceLoader;
+    private BeanFactory beanFactory;
 
     @Override
     public void registerBeanDefinitions(AnnotationMetadata metadata, BeanDefinitionRegistry registry) {
@@ -39,17 +44,7 @@ public class QuartzJobImportBeanDefinitionRegistrar
         scanner.setResourceLoader(resourceLoader);
         scanner.addIncludeFilter(new AnnotationTypeFilter(RepeatableQuartzJob.class));
 
-        String annotationName = EnableRepeatableQuartzJob.class.getName();
-        AnnotationAttributes attrs = Optional.ofNullable(metadata.getAnnotationAttributes(annotationName))
-                .map(AnnotationAttributes::new)
-                .orElseThrow(() -> new IllegalStateException(String.format("Unable to obtain annotation " +
-                        "attributes for %s!", annotationName)));
-
-        String[] packages = Optional.of(attrs.getStringArray("basePackages"))
-                .filter(array -> array.length > 0)
-                .orElseGet(() -> new String[] { ClassUtils.getPackageName(metadata.getClassName()) });
-
-        Arrays.stream(packages)
+        AutoConfigurationPackages.get(beanFactory).stream()
                 .map(scanner::findCandidateComponents)
                 .flatMap(Collection::stream)
                 .forEach(beanDefinition -> {
@@ -66,10 +61,11 @@ public class QuartzJobImportBeanDefinitionRegistrar
 
                     Assert.isAssignable(AnnotatedBeanDefinition.class, beanDefinition.getClass());
                     AnnotatedBeanDefinition bd = (AnnotatedBeanDefinition) beanDefinition;
-                    AnnotationAttributes jobAttrs = Optional.ofNullable(bd.getMetadata().getAnnotationAttributes(RepeatableQuartzJob.class.getName()))
-                            .map(AnnotationAttributes::new)
-                            .orElseThrow(() -> new IllegalStateException(String.format("Unable to obtain annotation " +
-                                    "attributes for %s!", annotationName)));
+                    AnnotationAttributes jobAttrs =
+                            Optional.ofNullable(bd.getMetadata().getAnnotationAttributes(RepeatableQuartzJob.class.getName()))
+                                    .map(AnnotationAttributes::new)
+                                    .orElseThrow(() -> new IllegalStateException(String.format("Unable to obtain "
+                                            + "annotation attributes for %s!", RepeatableQuartzJob.class.getName())));
 
                     AbstractBeanDefinition jobTriggerBeanDefinition =
                             BeanDefinitionBuilder.rootBeanDefinition(SimpleTriggerFactoryBean.class)
@@ -92,5 +88,10 @@ public class QuartzJobImportBeanDefinitionRegistrar
     @Override
     public void setResourceLoader(ResourceLoader resourceLoader) {
         this.resourceLoader = resourceLoader;
+    }
+
+    @Override
+    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+        this.beanFactory = beanFactory;
     }
 }

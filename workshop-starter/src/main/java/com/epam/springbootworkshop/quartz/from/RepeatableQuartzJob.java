@@ -1,4 +1,4 @@
-package com.epam.springbootworkshop.quartz._1;
+package com.epam.springbootworkshop.quartz.from;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

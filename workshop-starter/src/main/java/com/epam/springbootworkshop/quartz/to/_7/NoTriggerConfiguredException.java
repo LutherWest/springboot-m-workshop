@@ -1,4 +1,4 @@
-package com.epam.springbootworkshop.quartz._2;
+package com.epam.springbootworkshop.quartz.to._7;
 
 public class NoTriggerConfiguredException extends RuntimeException {
     public NoTriggerConfiguredException() {

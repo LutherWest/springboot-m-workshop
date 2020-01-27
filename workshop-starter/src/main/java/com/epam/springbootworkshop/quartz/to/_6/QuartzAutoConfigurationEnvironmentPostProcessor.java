@@ -1,4 +1,4 @@
-package com.epam.springbootworkshop.quartz._2;
+package com.epam.springbootworkshop.quartz.to._6;
 
 import java.util.Map;
 import java.util.Optional;
@@ -11,7 +11,7 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.MapPropertySource;
 import org.springframework.util.StringUtils;
 
-public class QuartAutoConfigurationEnvironmentPostProcessor implements EnvironmentPostProcessor, Ordered {
+public class QuartzAutoConfigurationEnvironmentPostProcessor implements EnvironmentPostProcessor, Ordered {
 
     @Override
     public void postProcessEnvironment(ConfigurableEnvironment env, SpringApplication application) {
@@ -22,7 +22,7 @@ public class QuartAutoConfigurationEnvironmentPostProcessor implements Environme
                     .map(StringUtils::arrayToCommaDelimitedString)
                     .orElseGet(QuartzAutoConfiguration.class::getName);
 
-            env.getPropertySources().addFirst(new MapPropertySource("quart_exclusions",
+            env.getPropertySources().addFirst(new MapPropertySource("quartz_exclusions",
                     Map.of("spring.autoconfigure.exclude", newPropertyValue)));
         }
     }

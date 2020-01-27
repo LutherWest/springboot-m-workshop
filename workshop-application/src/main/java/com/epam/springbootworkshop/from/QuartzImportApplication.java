@@ -1,7 +1,7 @@
-package com.epam.springbootworkshop._1;
+package com.epam.springbootworkshop.from;
 
-import com.epam.springbootworkshop.quartz._1.EnableRepeatableQuartzJob;
-import com.epam.springbootworkshop.quartz._1.RepeatableQuartzJob;
+import com.epam.springbootworkshop.quartz.from.EnableRepeatableQuartzJob;
+import com.epam.springbootworkshop.quartz.from.RepeatableQuartzJob;
 import org.quartz.JobExecutionContext;
 import org.quartz.Trigger;
 import org.quartz.spi.JobFactory;
@@ -27,7 +27,6 @@ public class QuartzImportApplication {
     public static class QuartzImportConfig {
         @Bean
         public SchedulerFactoryBean scheduler(JobFactory jobFactory, ObjectProvider<Trigger[]> triggers) {
-            // ...
             SchedulerFactoryBean bean = new SchedulerFactoryBean();
             bean.setSchedulerName("name");
             bean.setWaitForJobsToCompleteOnShutdown(true);
@@ -48,7 +47,6 @@ public class QuartzImportApplication {
 
         @Bean
         public JobFactory beanFactoryJobFactory() {
-            // ...
             return new SpringBeanJobFactory();
         }
     }
