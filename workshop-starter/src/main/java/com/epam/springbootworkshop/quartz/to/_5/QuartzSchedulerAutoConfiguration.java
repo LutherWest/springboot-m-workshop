@@ -36,8 +36,7 @@ public class QuartzSchedulerAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean({SchedulerFactoryBean.class, Scheduler.class})
     public SchedulerFactoryBean scheduler(JobFactory jobFactory, ObjectProvider<Trigger[]> triggers,
-                                          QuartzProperties properties, Environment environment,
-                                          ObjectProvider<QuartzSchedulerFactoryBeanCustomizer> customizers) {
+                                          QuartzProperties properties, Environment environment) {
         SchedulerFactoryBean bean = new SchedulerFactoryBean();
         bean.setSchedulerName(properties.getSchedulerName());
         bean.setWaitForJobsToCompleteOnShutdown(properties.getWaitForJobsCompleteOnShutdown());
@@ -55,8 +54,6 @@ public class QuartzSchedulerAutoConfiguration {
                 .ifBound(props::putAll);
 
         bean.setQuartzProperties(props);
-
-        customizers.orderedStream().forEach(customizer -> customizer.customize(bean));
 
         return bean;
     }

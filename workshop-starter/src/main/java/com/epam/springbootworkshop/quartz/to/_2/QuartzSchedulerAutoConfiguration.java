@@ -19,12 +19,9 @@ import com.epam.springbootworkshop.quartz.to._1.AutoConfigureQuartzJobImportBean
 
 @Configuration(proxyBeanMethods = false)
 @Import(AutoConfigureQuartzJobImportBeanDefinitionRegistrar.class)
-@ConditionalOnClass({ Scheduler.class, SchedulerFactoryBean.class })
-@ConditionalOnProperty(name = "scheduling.enabled", havingValue = "true", matchIfMissing = true)
 public class QuartzSchedulerAutoConfiguration {
 
     @Bean
-    @ConditionalOnMissingBean({SchedulerFactoryBean.class, Scheduler.class})
     public SchedulerFactoryBean scheduler(JobFactory jobFactory, ObjectProvider<Trigger[]> triggers) {
         SchedulerFactoryBean bean = new SchedulerFactoryBean();
         bean.setSchedulerName("name");
@@ -45,7 +42,6 @@ public class QuartzSchedulerAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnMissingBean
     public JobFactory beanFactoryJobFactory() {
         return new SpringBeanJobFactory();
     }

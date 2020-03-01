@@ -23,7 +23,6 @@ import com.epam.springbootworkshop.quartz.to._1.AutoConfigureQuartzJobImportBean
 @Import(AutoConfigureQuartzJobImportBeanDefinitionRegistrar.class)
 @ConditionalOnClass({ Scheduler.class, SchedulerFactoryBean.class })
 @ConditionalOnProperty(name = "scheduling.enabled", havingValue = "true", matchIfMissing = true)
-@AutoConfigureBefore(QuartzAutoConfiguration.class)
 public class QuartzSchedulerAutoConfiguration {
 
     @Bean

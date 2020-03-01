@@ -2,9 +2,11 @@ package com.epam.springbootworkshop.quartz.to._1;
 
 import java.util.Properties;
 
+import com.epam.springbootworkshop.quartz.from.EnableRepeatableQuartzJob;
 import org.quartz.Trigger;
 import org.quartz.spi.JobFactory;
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -12,7 +14,7 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.scheduling.quartz.SpringBeanJobFactory;
 
 @Configuration(proxyBeanMethods = false)
-@Import(AutoConfigureQuartzJobImportBeanDefinitionRegistrar.class)
+@EnableRepeatableQuartzJob
 public class QuartzSchedulerAutoConfiguration {
 
     @Bean

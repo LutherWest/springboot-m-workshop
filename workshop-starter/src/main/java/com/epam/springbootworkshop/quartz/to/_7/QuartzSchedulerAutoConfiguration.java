@@ -43,7 +43,7 @@ public class QuartzSchedulerAutoConfiguration {
         bean.setWaitForJobsToCompleteOnShutdown(properties.getWaitForJobsCompleteOnShutdown());
         bean.setOverwriteExistingJobs(properties.getOverwriteExistingJobs());
         bean.setJobFactory(jobFactory);
-        bean.setTriggers(triggers.getIfAvailable(() -> { throw new NoTriggerConfiguredException(); }));
+        triggers.ifAvailable(bean::setTriggers);
 
         Properties props = new Properties();
         props.put("org.quartz.scheduler.instanceId", "AUTO");

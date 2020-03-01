@@ -28,17 +28,15 @@ import com.epam.springbootworkshop.quartz.to._1.AutoConfigureQuartzJobImportBean
 @ConditionalOnClass({ Scheduler.class, SchedulerFactoryBean.class })
 @ConditionalOnProperty(name = "scheduling.enabled", havingValue = "true", matchIfMissing = true)
 @AutoConfigureBefore(QuartzAutoConfiguration.class)
-@EnableConfigurationProperties(QuartzProperties.class)
 public class QuartzSchedulerAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean({SchedulerFactoryBean.class, Scheduler.class})
-    public SchedulerFactoryBean scheduler(JobFactory jobFactory, ObjectProvider<Trigger[]> triggers,
-                                          QuartzProperties properties, Environment environment) {
+    public SchedulerFactoryBean scheduler(JobFactory jobFactory, ObjectProvider<Trigger[]> triggers) {
         SchedulerFactoryBean bean = new SchedulerFactoryBean();
-        bean.setSchedulerName(properties.getSchedulerName());
-        bean.setWaitForJobsToCompleteOnShutdown(properties.getWaitForJobsCompleteOnShutdown());
-        bean.setOverwriteExistingJobs(properties.getOverwriteExistingJobs());
+        bean.setSchedulerName("name");
+        bean.setWaitForJobsToCompleteOnShutdown(true);
+        bean.setOverwriteExistingJobs(true);
         bean.setJobFactory(jobFactory);
         triggers.ifAvailable(bean::setTriggers);
 
@@ -46,10 +44,6 @@ public class QuartzSchedulerAutoConfiguration {
         props.put("org.quartz.scheduler.instanceId", "AUTO");
         props.put("org.quartz.threadPool.threadCount", "2");
         props.put("org.quartz.jobStore.class", "org.quartz.simpl.RAMJobStore");
-
-        Binder.get(environment)
-                .bind("scheduling.properties", Bindable.mapOf(String.class, String.class))
-                .ifBound(props::putAll);
 
         bean.setQuartzProperties(props);
 
