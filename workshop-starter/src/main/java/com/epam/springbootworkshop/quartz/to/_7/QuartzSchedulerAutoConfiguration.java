@@ -55,7 +55,7 @@ public class QuartzSchedulerAutoConfiguration {
                 .ifBound(props::putAll);
 
         bean.setQuartzProperties(props);
-        // ...
+
         customizers.orderedStream().forEach(customizer -> customizer.customize(bean));
 
         return bean;

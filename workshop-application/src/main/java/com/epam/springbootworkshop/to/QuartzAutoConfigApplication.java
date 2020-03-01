@@ -14,7 +14,7 @@ public class QuartzAutoConfigApplication {
         SpringApplication.run(QuartzAutoConfigApplication.class, args);
     }
 
-    @RepeatableQuartzJob(repeatInterval = 3000)
+    @RepeatableQuartzJob(repeatInterval = 2000)
     public static class JobClass extends QuartzJobBean {
 
         @Override
